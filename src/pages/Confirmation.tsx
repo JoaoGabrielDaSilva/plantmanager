@@ -27,27 +27,26 @@ export function Confirmation() {
     const { title, subtitle, buttonTitle, icon, nextScreen } = routes.params as Params
 
     function handleNavigation() {
-        navigation.navigate('PlantSelect')
+        navigation.navigate(nextScreen)
     }
 
   return (
       <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <Text style={styles.emoji}>
-                    😄
+                    {emojis[icon]}
                 </Text>
 
                 <Text style={styles.title}>
-
+                    { title }
                 </Text>
 
                 <Text style={styles.subtitle}>
-                    Vamos começar a cuidar das suas 
-                    plantinhas com muito cuidado
+                    { subtitle }
                 </Text>
 
                 <View style={styles.footer}>
-                    <Button title="Começar" onPress={handleNavigation}/>
+                    <Button title={buttonTitle} onPress={handleNavigation}/>
                 </View>
             </View>
       </SafeAreaView>

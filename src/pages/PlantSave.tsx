@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { SvgFromUri } from 'react-native-svg'
-import { useRoute } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker'
 
@@ -34,6 +34,8 @@ export function PlantSave() {
 
     const route = useRoute()
     const { plant } = route.params as Params
+
+    const navigation =  useNavigation()
 
     function handleTimeChange(event: Event, dateTime: Date | undefined) {
         if (Platform.OS === 'android') {
@@ -60,6 +62,14 @@ export function PlantSave() {
                 ...plant,
                 dateTimeNotification: selectedDateTime
             })
+
+            navigation.navigate('Confirmation', {
+                title: 'Tudo certo',
+                subtitle: 'Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.',
+                buttonTitle: 'Muito Obrigado :D',
+                icon: 'hug',
+                nextScreen: 'MyPlants'
+                })
         } catch {
             return Alert.alert("Não foi possível salvar!")
         }
@@ -68,6 +78,10 @@ export function PlantSave() {
     
 
     return (
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+        >
         <View style={styles.container}>
             <View style={styles.plantInfo}>
                 <SvgFromUri 
@@ -124,6 +138,7 @@ export function PlantSave() {
                 />
             </View>
         </View>
+        </ScrollView>
     )
 }
 
@@ -131,16 +146,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: colors.shape
+        backgroundColor: colors.shape,
     },
-
     plantInfo: {
         flex: 1,
         paddingHorizontal: 30,
-        paddingVertical: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.shape
+        backgroundColor: colors.shape,
+        paddingTop: 30
     },
 
     controller: {
@@ -175,7 +189,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 20,
         position: 'relative',
-        bottom: 20
+        bottom: 10
     },
 
     tipImage: {

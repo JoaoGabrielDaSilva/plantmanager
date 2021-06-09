@@ -1,6 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import * as Notifications from 'expo-notifications' 
+import React, { useEffect } from 'react';
 import AppLoading from 'expo-app-loading'
+import { PlantProps } from './src/libs/storage';
 
 import Routes from './src/routes';
 import {
@@ -14,6 +15,16 @@ export default function App() {
     Jost_400Regular,
     Jost_600SemiBold
   })
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      async notification => {
+        const data = notification.request.content.data.plant as PlantProps
+      }
+    )
+    return () => subscription.remove()
+
+  }, [])
 
   if (!fontsLoaded) {
     return <AppLoading />
